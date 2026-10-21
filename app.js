@@ -6,6 +6,8 @@ var logger = require('morgan');
 var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+require('dotenv').config();
+var pool = require('./models/bd');
 
 var app = express();
 
@@ -26,6 +28,12 @@ app.use(session({
 
 //app.use('/', indexRouter);
 //app.use('/users', usersRouter);
+
+pool.query('select * from empleados').then(function(resultados) {
+  console.log(resultados);
+});
+
+
 app.get('/', function(req, res) {
   var conocido = Boolean(req.session.nombre);
   res.render('index', {
